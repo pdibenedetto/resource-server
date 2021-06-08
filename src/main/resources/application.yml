@@ -1,10 +1,20 @@
 server:
-  port: 8081
+  port: 0
 
 spring:
+  application:
+    name: resource-server
+
   security:
     oauth2:
       resourceserver:
         jwt:
           # issuer-uri: http://localhost:8080/auth/realms/appsdeveloperblog #can use both this or one below
           jwk-set-uri: http://localhost:8080/auth/realms/appsdeveloperblog/protocol/openid-connect/certs
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${instanceId:${random.value}}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/

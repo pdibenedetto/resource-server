@@ -1,6 +1,7 @@
 package com.appsdeveloperblog.ws.api.resourceserver.controllers;
 
 import com.appsdeveloperblog.ws.api.resourceserver.model.UserRest;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,9 +19,15 @@ import java.util.UUID;
 @RequestMapping("/users")
 public class UsersController {
 
+    private final Environment environment;
+
+    public UsersController(final Environment environment) {
+        this.environment = environment;
+    }
+
     @GetMapping("/status/check")
     public String status() {
-        return "Working...";
+        return "Working on port " + environment.getProperty("local.server.port");
     }
 
     @PostAuthorize("hasRole('ADMIN') or returnObject.id == jwt.subject")
