@@ -1,6 +1,7 @@
 package com.appsdeveloperblog.ws.api.resourceserver.controllers;
 
 import com.appsdeveloperblog.ws.api.resourceserver.model.UserRest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UsersController {
@@ -27,7 +29,9 @@ public class UsersController {
 
     @GetMapping("/status/check")
     public String status() {
-        return "Working on port " + environment.getProperty("local.server.port");
+        String message = "Working on port " + environment.getProperty("local.server.port");
+        log.info(message);
+        return message;
     }
 
     @PostAuthorize("hasRole('ADMIN') or returnObject.id == jwt.subject")
